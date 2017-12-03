@@ -1,0 +1,5 @@
+{
+	"one":"SELECT Name, PhoneNum, Bdate, Sex, Photo FROM Teacher WHERE Ssn = Z123456789;",
+	"two":"SELECT CourseName, Course.AName, Count(SNum) FROM Course, Take_Course WHERE TNum = 'Z123456789' AND CourseNum = CNum;",
+	"three": "SELECT StudentName, AcademyName, Dean, Salary FROM Student, Academy, Teacher WHERE StudentNum = 33445566 AND Student.AName = AcademyName AND Dean = Teacher.Name;" 
+}

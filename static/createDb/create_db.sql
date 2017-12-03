@@ -18,7 +18,7 @@ CREATE TABLE Teacher (
 	OfficeAddress 	NVARCHAR(255),
 	Sex 			NCHAR,
 	Salary			INTEGER(10),
-	PhoneNum 		INTEGER(16),
+	PhoneNum 		CHAR(16),
 	Class 			NVARCHAR(8),
 	Expertise 		NVARCHAR(50),
 	AName 			NVARCHAR(50),
@@ -43,7 +43,7 @@ CREATE TABLE Student (
 	Sex  			NCHAR,
 	Photo 			BLOB,
 	Email  			VARCHAR(100),
-	PhoneNum 		INTEGER(16),
+	PhoneNum 		CHAR(16),
 	Address  		NVARCHAR(255),
 	AName 			NVARCHAR(50),
 	CONSTRAINT S_AcademyName_SUPER_ForiegnKey
