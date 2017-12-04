@@ -3,29 +3,51 @@
 {% block DataTables %}
   <div class="card mt-3">
     <div class="card-header">
-      <i class="fa fa-table"></i> All Table Preview</div>
+    	<div class="row">
+    		<div class="col-xl-12 col-sm-12">
+	    		<i class="fa fa-table"></i>	
+				{{table_name or 'Table Preview'}}
+	    		<div class="dropdown pull-right">
+	    		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    		    Choose Table
+	    		  </button>
+	    		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+	    		    <a class="dropdown-item" href="/table/Academy">Academy</a>
+	    		    <a class="dropdown-item" href="/table/Teacher">Teacher</a>
+	    		    <a class="dropdown-item" href="/table/Student">Student</a>
+	    		    <a class="dropdown-item" href="/table/Course">Course</a>
+	    		    <a class="dropdown-item" href="/table/Take_Course">Take_Course</a>
+	    		  </div>
+	    		</div>	
+    		</div>	
+  		</div>
+  	</div>
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
+            	{%- if columns -%}
+	            	{% for column_name in columns %}
+	            	  <th>{{ column_name|e }}</th>
+	            	{% endfor %}
+	            {% endif %}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>$320,800</td>
-            </tr>
+          	{%- if results -%}
+	          	{% for result in results %}
+	          	  <tr>
+	          	    {% for key,value in result.items() %}
+		          	    {%- if key == 'Photo' -%}
+		          	    	<th><img src="data:image/png;base64,{{ value }}"/></th>
+		          	    {% else %}
+		          	      	<th>{{ value }}</th>
+		          	    {% endif %}
+	          	    {% endfor %}
+	          	  </tr>
+	          	{% endfor %}
+	        {% endif %}
           </tbody>
         </table>
       </div>

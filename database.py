@@ -11,8 +11,12 @@ teachers = Table('Teacher', metadata, autoload=True)
 courses = Table('Course', metadata, autoload=True)
 students = Table('Student', metadata, autoload=True)
 tcourse = Table('Take_Course', metadata, autoload=True)
+all_table = {'Academy':academies,'Teacher':teachers,
+            'Course':courses,'Student':students,'Take_Course':tcourse}
 
 def get_engine():
     return engine
 
 
+def get_table(tablename):
+    return all_table[tablename]
