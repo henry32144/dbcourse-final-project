@@ -21,7 +21,7 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="index.html">西海大學後台管理</a>
+    <a class="navbar-brand" href="/">西海大學後台管理</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,7 +34,7 @@
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
-          <a class="nav-link" href="#">
+          <a class="nav-link" href="/demo">
             <i class="fa fa-fw fa-table"></i>
             <span class="nav-link-text">Demo</span>
           </a>
@@ -42,14 +42,20 @@
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
             <i class="fa fa-fw fa-wrench"></i>
-            <span class="nav-link-text">Components</span>
+            <span class="nav-link-text">Operation</span>
           </a>
           <ul class="sidenav-second-level collapse" id="collapseComponents">
             <li>
-              <a href="#">Navbar</a>
+              <a href="#">Create</a>
             </li>
             <li>
-              <a href="#">Cards</a>
+              <a href="#">Read</a>
+            </li>
+            <li>
+              <a href="#">Update</a>
+            </li>
+            <li>
+              <a href="#">Delete</a>
             </li>
           </ul>
         </li>
@@ -68,23 +74,13 @@
       <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+          <a href="/">Sihai University</a>
         </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
+        {% block smallTitle %}{% endblock smallTitle %}
       </ol>
       <!-- Icon Cards-->
-      <div class="row">
-        <div class="col-xl-12 col-sm-12 mb-12">
-          <div class="card text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <i class="fa fa-fw fa-comments"></i>
-              </div>
-              <div class="mr-5 h1">Welcome!</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      {% block titleCard %}{% endblock titleCard %}
+
       {% block IconCards %}{% endblock IconCards %}
       <!-- Example DataTables Card-->
       {% block DataTables %}{% endblock DataTables %}
@@ -109,6 +105,7 @@
     <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../static/js/sb-admin.min.js"></script>
   </div>
 </body>
 

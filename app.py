@@ -1,7 +1,8 @@
 import sqlite3
 import json
 import database
-from base64 import b64encode
+import base64
+from demo_query import demo_query, demo_query_title
 from flask import Flask, render_template, request, g , jsonify
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Date
 from datetime import datetime
@@ -17,7 +18,7 @@ def index():
     con = database.get_engine().connect()
     table = database.academies.select().execute().fetchall()
     table_name = 'Academy'
-    columns , results = get_select_all(table)
+    columns , results = parse_result(table)
     
     con.close()
     return render_template (
@@ -26,6 +27,31 @@ def index():
         columns = columns,
         results = results)
 
+@app.route('/demo')
+def demo():
+    
+    return render_template (
+        'demo.html')
+
+@app.route('/demo/<demoname>')
+def get_demo(demoname):
+    engine = database.get_engine()
+    table_name = demoname
+    demo_title = demo_query_title[demoname]
+    demo_code = demo_query[demoname]
+    demo_result = engine.execute(demo_code).fetchall()
+    columns , results = parse_result(demo_result)
+
+    
+    return render_template (
+        'demo.html',
+        table_name = table_name,
+        columns = columns,
+        results = results,
+        demo_title = demo_title,
+        demo_code = demo_code
+    )
+
 @app.route('/table/<tablename>')
 def get_table(tablename):
     con = database.get_engine().connect()
@@ -33,7 +59,7 @@ def get_table(tablename):
     table = table.select().execute().fetchall()
     table_name = tablename
     
-    columns , results = get_select_all(table)
+    columns , results = parse_result(table)
         
 
     con.close()
@@ -45,7 +71,7 @@ def get_table(tablename):
         results = results
     )
 
-def get_select_all(table):
+def parse_result(table):
     columns = table[0].keys()
     results = []
     
@@ -54,7 +80,8 @@ def get_select_all(table):
         count = 0
         for value in row:
             if columns[count] == 'Photo':
-                value = b64encode(value)
+                ##To decode b'' header and encode img to base64
+                value = base64.b64encode(value).decode('UTF-8')
             current_data.update({columns[count]: value})
             count+=1
         results.append(current_data)

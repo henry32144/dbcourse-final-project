@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+
 {% block smallTitle %}
-<li class="breadcrumb-item active">Dashboard</li>
+<li class="breadcrumb-item active">Demo</li>
 {% endblock smallTitle %}
+
 
 {% block titleCard %}
 <div class="row">
@@ -12,12 +14,13 @@
         <div class="card-body-icon">
           <i class="fa fa-fw fa-comments"></i>
         </div>
-        <div class="mr-5 h1">Welcome!</div>
+        <div class="mr-5 h1">Demo!</div>
       </div>
     </div>
   </div>
 </div>
 {% endblock titleCard %}
+
 
 {% block DataTables %}
   <div class="card mt-3">
@@ -25,23 +28,23 @@
     	<div class="row">
     		<div class="col-xl-12 col-sm-12">
 	    		<i class="fa fa-table"></i>	
-				{{table_name or 'Table Preview'}}
+				{{table_name or 'Demo'}}
 	    		<div class="dropdown pull-right">
 	    		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	    		    Choose Table
+	    		    Choose Demo
 	    		  </button>
 	    		  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-	    		    <a class="dropdown-item" href="/table/Academy">Academy</a>
-	    		    <a class="dropdown-item" href="/table/Teacher">Teacher</a>
-	    		    <a class="dropdown-item" href="/table/Student">Student</a>
-	    		    <a class="dropdown-item" href="/table/Course">Course</a>
-	    		    <a class="dropdown-item" href="/table/Take_Course">Take_Course</a>
+	    		    <a class="dropdown-item" href="/demo/demo1">Demo 1</a>
+	    		    <a class="dropdown-item" href="/demo/demo2">Demo 2</a>
+	    		    <a class="dropdown-item" href="/demo/demo3">Demo 3</a>
 	    		  </div>
 	    		</div>	
     		</div>	
   		</div>
   	</div>
     <div class="card-body">
+    	<h5>{{ demo_title }}</h5>
+    	<P>{{ demo_code }}</P>
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
@@ -74,4 +77,3 @@
     <div class="card-footer"></div>
   </div>
 {% endblock DataTables %}
-
