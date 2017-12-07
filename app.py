@@ -52,6 +52,13 @@ def get_demo(demoname):
         demo_code = demo_code
     )
 
+@app.route('/operation')
+def operation():
+    
+    return render_template (
+        'operation.html')
+
+
 @app.route('/table/<tablename>')
 def get_table(tablename):
     con = database.get_engine().connect()
