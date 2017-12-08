@@ -1,0 +1,230 @@
+  <br>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Choose Demo
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample" href="#academy">Academy</a>
+      <a class="dropdown-item" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample2" href="#teacher">Teacher</a>
+      <a class="dropdown-item" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample3" href="#student">Student</a>
+      <a class="dropdown-item" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample4" href="#course">Course</a>
+      <a class="dropdown-item" data-toggle="collapse" aria-expanded="false" aria-controls="collapseExample5" href="#take_course">Take_Course</a>
+    </div>
+  </div>
+  <!--Insert form area-->
+  <div id="table-forms" role="tablist" data-children=".table">
+    <!--Academy-->
+    <div class="table">
+      <div class="collapse" id="academy" data-parent="#table-forms">
+        <div class="card card-body" >
+          <form action="" class="form-horizontal">
+            <div class="form-group row">    
+              <div class="input-group col">
+                <span class="input-group-addon">AcademyNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group col">
+                <span class="input-group-addon">AcademyName</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <div class="form-group">    
+              <div class="input-group">
+                <span class="input-group-addon">Dean</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">DServing</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">OfficeAddress</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="academy_submit" value="Submit" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--Teacher-->
+    <div class="table">
+      <div class="collapse" id="teacher"  data-parent="#table-forms">
+        <div class="card card-body">
+          <form action="" class="form-horizontal">
+            <div class="form-group row">    
+              <div class="input-group col">
+                <span class="input-group-addon">Ssn</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group col">
+                <span class="input-group-addon">Name</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group col">
+                <span class="input-group-addon">Sex</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon">Photo</span>
+                <input id="disabledInput" type="text" class="form-control" placeholder="Use Default Photo" aria-label="Arguments" disabled>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Bdate</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Address</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">OfficeAddress</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Salary</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">PhoneNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Class</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Expertise</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">AName</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="teacher_submit" value="Submit" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--Student-->
+    <div class="table">
+      <div class="collapse" id="student"  data-parent="#table-forms">
+        <div class="card card-body">
+          <form action="" class="form-horizontal">
+            <div class="form-group row">    
+              <div class="input-group col">
+                <span class="input-group-addon">StudentNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group col">
+                <span class="input-group-addon">StudentName</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group col">
+                <span class="input-group-addon">Sex</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon">Photo</span>
+                <input id="disabledInput" type="text" class="form-control" placeholder="Use Default Photo" aria-label="Arguments" disabled>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">BDATE</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Email</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">PhoneNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Address</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">AName</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="student_submit" value="Submit" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--Course-->
+    <div class="table">
+      <div class="collapse" id="course"  data-parent="#table-forms">
+        <div class="card card-body">
+          <form action="" class="form-horizontal">
+            <div class="form-group row">    
+              <div class="input-group col">
+                <span class="input-group-addon">CourseNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group col">
+                <span class="input-group-addon">CourseName</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <div class="form-group">    
+              <div class="input-group">
+                <span class="input-group-addon">AcademicYear</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Semester</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">AName</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="course_submit" value="Submit" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--Take_Course-->
+    <div class="table">
+      <div class="collapse" id="take_course"  data-parent="#table-forms">
+        <div class="card card-body">
+          <form action="" class="form-horizontal">
+            <div class="form-group row">    
+              <div class="input-group col">
+                <span class="input-group-addon">SNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group col">
+                <span class="input-group-addon">CNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <div class="form-group">    
+              <div class="input-group">
+                <span class="input-group-addon">TNum</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">AName</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Score</span>
+                <input type="text" class="form-control" aria-label="Arguments">
+              </div>
+            </div>
+            <button class="btn btn-primary" id="tc_submit" value="Submit" type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
