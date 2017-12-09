@@ -11,7 +11,12 @@ from datetime import datetime
 # Initialize flask app.
 app = Flask(__name__)
 
-
+status_code = { 'operator_warn':"Only SELECT operator is accepted",
+                'empty_warn':"Nothing input",
+                'success':"Request has been send successful",
+                'no_result':"Request has succeeded, but no result",
+                'error':"An error occurred:",
+}
 
 @app.route('/')
 def index():
@@ -52,6 +57,7 @@ def get_demo(demoname):
         demo_code = demo_code
     )
 
+##Operation page
 @app.route('/operation')
 def operation():
     
@@ -59,6 +65,66 @@ def operation():
         'operation.html')
 
 
+@app.route('/operation/submit', methods=['POST'])
+def operation_submit():
+    
+    status = ''
+    
+    # Get text from requset.
+    request_code = request.form.get('request-text')
+
+    # Get text is not empty.
+    if request_code != '':
+
+        # Check if exist invalid operator.
+        request_code = string_process(request_code)
+        
+        # Invalid operator exist, return warn.
+        if request_code == 0:
+            return render_template('operation.html',
+                status = {'warn':status_code['operator_warn']},
+                user_input = 'Nope')
+        
+        # Not exist, send code to database.
+        else:
+            try:
+                engine = database.get_engine()
+                cursor = engine.execute(request_code).fetchall()
+
+                # Check if result is not empty.
+                if cursor:
+                        
+                    #Parse result
+                    columns , results = parse_result(cursor)
+                    
+
+                    # Success, return result.
+                    return render_template('operation.html',
+                        status = {'success':status_code['success']},
+                        user_input = request_code,
+                        columns = columns,
+                        results = results)
+
+                # Result is empty, show status message.
+                else:
+                    return render_template('operation.html',
+                        status = {'success':status_code['no_result']},
+                        user_input = request_code)
+
+            # Something error occure, return error message.
+            except Exception as ex:
+                return render_template('operation.html',
+                    status = {'error':status_code['error']},
+                    user_input = request_code,
+                    error_message = ex)
+
+    return render_template (
+        'operation.html',
+        status = {'warn':status_code['empty_warn']})
+
+
+
+##Database functions
 @app.route('/table/<tablename>')
 def get_table(tablename):
     con = database.get_engine().connect()
@@ -66,8 +132,7 @@ def get_table(tablename):
     table = table.select().execute().fetchall()
     table_name = tablename
     
-    columns , results = parse_result(table)
-        
+    columns , results = parse_result(table)       
 
     con.close()
     
@@ -93,6 +158,19 @@ def parse_result(table):
             count+=1
         results.append(current_data)
     return columns, results
+
+# This function check invalid text and filter the text.
+def string_process(query_str):
+    is_valid = True
+    query_str = query_str.replace('\'','\"')
+    unavaliabe = ['DELETE','DROP','UPDATE','CREATE']
+    for i in unavaliabe:
+        if query_str.find(i) != -1:
+            is_valid = False
+    if is_valid != True:
+        return 0
+    else:
+        return query_str
 
 
 if __name__ == '__main__':

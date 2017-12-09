@@ -7,25 +7,47 @@
 {% block IconCards %}
 <div class="row">
   <div class="col-xl-12 col-sm-12 mb-12">
-    <div class="card text-white bg-primary o-hidden h-100">
+    <div class="card text-white {{ bg or 'bg-primary'}} o-hidden h-100">
       <div class="card-body">
         <div class="card-body-icon">
            <i class="fa fa-fw fa-wrench"></i>
         </div>
-        <div class="mr-5 h1">Demo!</div>
+        <div class="mr-5 h1">Operation!</div>
       </div>
     </div>
   </div>
 </div>
 {% endblock IconCards %}
 
+{% block Operation %}
+  <div class="form-group mt-3">
+  <form class="input-group" action="/operation/submit" method="post" role="form">
+    <textarea class="form-control" rows="5" id="type-area" name="request-text"placeholder="Console"></textarea>
+    <span class="input-group-btn" aria-hidden="true">
+      <button class="btn btn-primary" id="submit-query" value="Submit" type="submit">Submit</button>
+      </span>
+    </form>
+  </div>
+{% endblock Operation %}
 
-{% block Operations %}
-
-{% include 'insert.html' %}
-
-{% endblock Operations %}
-
+{% block resultstatus %}
+  <P>{{ user_input }}</P>
+  {% if status %}
+    {% if status.error %}
+      <div class="alert alert-danger">
+        <strong>Error!</strong> {{ error_message }}
+      </div>
+    {% elif status.warn %}
+      <div class="alert alert-warning">
+        <strong>Warning!</strong> {{ status.warn }}
+      </div>
+    {% elif status.success %}
+      <div class="alert alert-success">
+        <strong>Success!</strong> {{ status.success }}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endblock resultstatus %}
 
 {% block DataTables %}
   <div class="card mt-3">
