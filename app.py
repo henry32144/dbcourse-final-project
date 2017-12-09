@@ -7,8 +7,7 @@ from flask import Flask, render_template, request, g , jsonify
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Date
 from datetime import datetime
 
-#from sqlalchemy.orm import mapper, scoped_session, sessionmaker
-# Initialize flask app.
+## Initialize flask app.
 app = Flask(__name__)
 
 status_code = { 'operator_warn':"Only SELECT operator is accepted",
@@ -18,11 +17,18 @@ status_code = { 'operator_warn':"Only SELECT operator is accepted",
                 'error':"An error occurred:",
 }
 
+## Get Academy table for default
 @app.route('/')
 def index():
+    
+    ##Get database engine
     con = database.get_engine().connect()
+
+    ##Execute select all from Academy table
     table = database.academies.select().execute().fetchall()
     table_name = 'Academy'
+    
+    ##Parse result data
     columns , results = parse_result(table)
     
     con.close()
@@ -32,18 +38,23 @@ def index():
         columns = columns,
         results = results)
 
+## Demo page
 @app.route('/demo')
 def demo():
-    
     return render_template (
         'demo.html')
 
+## Execute demo
 @app.route('/demo/<demoname>')
 def get_demo(demoname):
     engine = database.get_engine()
     table_name = demoname
+    
+    ## Get demo name by url
+    
     demo_title = demo_query_title[demoname]
     demo_code = demo_query[demoname]
+
     demo_result = engine.execute(demo_code).fetchall()
     columns , results = parse_result(demo_result)
 
@@ -124,7 +135,7 @@ def operation_submit():
 
 
 
-##Database functions
+## Get result by selected table
 @app.route('/table/<tablename>')
 def get_table(tablename):
     con = database.get_engine().connect()
