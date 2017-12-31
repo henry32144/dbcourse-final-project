@@ -93,9 +93,25 @@ def delete():
     return render_template (
         'delete.html')
 
+@app.route('/operation/get/academy-name')
+def get_academy():
+    result = database.engine.execute("SELECT AcademyName FROM Academy").fetchall()
+    data = parse_name(result)
+    json_data = json.dumps({'Name':data})
+    return json_data
 
+@app.route('/operation/get/teacher-name')
+def get_teacher_name():
+    result = database.engine.execute("SELECT Name FROM Teacher").fetchall()
+    data = parse_name(result)
+    json_data = json.dumps({'Name':data})
+    return json_data
 
-
+def parse_name(raw_result):
+    data = []
+    for i in raw_result:
+        data.append(i[0])
+    return data
 
 ##TextArea page
 @app.route('/textarea')
