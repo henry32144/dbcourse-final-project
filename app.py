@@ -75,6 +75,26 @@ def operation():
     return render_template (
         'operation.html')
 
+@app.route('/operation/insert')
+def insert():
+    
+    return render_template (
+        'insert.html')
+
+@app.route('/operation/update')
+def update():
+    
+    return render_template (
+        'update.html')
+
+@app.route('/operation/delete')
+def delete():
+    
+    return render_template (
+        'delete.html')
+
+
+
 
 
 ##TextArea page
