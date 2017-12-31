@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block smallTitle %}
-<li class="breadcrumb-item active">Operation</li>
+<li class="breadcrumb-item active">TextArea</li>
 {% endblock smallTitle %}
 
 {% block IconCards %}
@@ -10,9 +10,9 @@
     <div class="card text-white {{ bg or 'bg-primary'}} o-hidden h-100">
       <div class="card-body">
         <div class="card-body-icon">
-           <i class="fa fa-fw fa-wrench"></i>
+           <i class="fa fa-fw fa-pencil"></i>
         </div>
-        <div class="mr-5 h1">Operation!</div>
+        <div class="mr-5 h1">TextArea!</div>
       </div>
     </div>
   </div>
@@ -21,8 +21,8 @@
 
 {% block Operation %}
   <div class="form-group mt-3">
-  <form class="input-group" action="/operation/submit" method="post" role="form">
-    <textarea class="form-control" rows="5" id="type-area" name="request-text"placeholder="Console"></textarea>
+  <form class="input-group" action="/textarea/submit" method="post" role="form">
+    <textarea class="form-control" rows="5" id="type-area" name="request-text"placeholder="TextArea"></textarea>
     <span class="input-group-btn" aria-hidden="true">
       <button class="btn btn-primary" id="submit-query" value="Submit" type="submit">Submit</button>
       </span>
@@ -30,6 +30,24 @@
   </div>
 {% endblock Operation %}
 
+{% block resultstatus %}
+  <P>{{ user_input }}</P>
+  {% if status %}
+    {% if status.error %}
+      <div class="alert alert-danger">
+        <strong>Error!</strong> {{ error_message }}
+      </div>
+    {% elif status.warn %}
+      <div class="alert alert-warning">
+        <strong>Warning!</strong> {{ status.warn }}
+      </div>
+    {% elif status.success %}
+      <div class="alert alert-success">
+        <strong>Success!</strong> {{ status.success }}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endblock resultstatus %}
 
 {% block DataTables %}
   <div class="card mt-3">

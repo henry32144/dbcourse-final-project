@@ -76,8 +76,17 @@ def operation():
         'operation.html')
 
 
-@app.route('/operation/submit', methods=['POST'])
-def operation_submit():
+
+##TextArea page
+@app.route('/textarea')
+def textarea():
+    
+    return render_template (
+        'textarea.html')
+
+
+@app.route('/textarea/submit', methods=['POST'])
+def textarea_submit():
     
     status = ''
     
@@ -92,7 +101,7 @@ def operation_submit():
         
         # Invalid operator exist, return warn.
         if request_code == 0:
-            return render_template('operation.html',
+            return render_template('textarea.html',
                 status = {'warn':status_code['operator_warn']},
                 user_input = 'Nope')
         
@@ -110,7 +119,7 @@ def operation_submit():
                     
 
                     # Success, return result.
-                    return render_template('operation.html',
+                    return render_template('textarea.html',
                         status = {'success':status_code['success']},
                         user_input = request_code,
                         columns = columns,
@@ -118,19 +127,19 @@ def operation_submit():
 
                 # Result is empty, show status message.
                 else:
-                    return render_template('operation.html',
+                    return render_template('textarea.html',
                         status = {'success':status_code['no_result']},
                         user_input = request_code)
 
             # Something error occure, return error message.
             except Exception as ex:
-                return render_template('operation.html',
+                return render_template('textarea.html',
                     status = {'error':status_code['error']},
                     user_input = request_code,
                     error_message = ex)
 
     return render_template (
-        'operation.html',
+        'textarea.html',
         status = {'warn':status_code['empty_warn']})
 
 
