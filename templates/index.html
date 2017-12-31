@@ -24,8 +24,7 @@
     <div class="card-header">
     	<div class="row">
     		<div class="col-xl-12 col-sm-12">
-	    		<i class="fa fa-table"></i>	
-				{{table_name or 'Table Preview'}}
+	    		<i class="fa fa-table" id="table-name">  {{table_name or "Table Preview"}}</i>	
 	    		<div class="dropdown pull-right">
 	    		  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	    		    Choose Table
@@ -38,14 +37,26 @@
 	    		    <a class="dropdown-item" href="/table/Take_Course">Take_Course</a>
 	    		  </div>
 	    		</div>	
-    		</div>	
+    		</div>
   		</div>
+      <div class="row">
+        <div class="search-wrapper col-lg-3 mt-3" role="search">
+          <div class="form-group input-group search-area">
+            <input class="form-control" id="query-input" placeholder="Search by Id" type="text">
+            <span class="input-group-btn" id="search-span">
+              <button class="btn btn-default" id="query-button" type="submit" value="Submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
   	</div>
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
           <thead>
-            <tr>
+            <tr id="t-headpart">
             	{%- if columns -%}
 	            	{% for column_name in columns %}
 	            	  <th>{{ column_name|e }}</th>
@@ -53,12 +64,12 @@
 	            {% endif %}
             </tr>
           </thead>
-          <tbody>
+          <tbody id="t-bodypart">
           	{%- if results -%}
 	          	{% for result in results %}
 	          	  <tr>
 	          	    {% for key,value in result.items() %}
-		          	    {%- if key == 'Photo' -%}
+		          	    {%- if key == "Photo" -%}
 		          	    	<th><img src="data:image/png;base64,{{ value }}"/></th>
 		          	    {% else %}
 		          	      	<th>{{ value }}</th>
@@ -75,3 +86,80 @@
   </div>
 {% endblock DataTables %}
 
+{% block script %}
+<script type="text/javascript">
+$(function() {
+
+  function getJsondata(tablename, query) {
+    queryText = query
+    $.getJSON({
+      url: "/table/" + tablename + "/query",
+      data: {text:queryText},
+      success: function(response) {
+                console.log("success")
+                parseJson(response);
+            },
+            error: function(error) {
+                console.log("fail");
+                console.log(error);
+            }
+    });
+  };
+
+
+  function parseJson(data) {
+    columns = data.columns;
+    result = data.results;
+    $("#t-headpart").empty();
+    $("#t-bodypart").empty();
+
+    for(i =0; i < columns.length;i++) {
+      $("<th/>", {
+        text: columns[i]
+      }).appendTo("#t-headpart");
+    }
+
+    for(i =0; i < result.length;i++) {
+      tr = "<tr>";
+      for(key in result[i]) {
+        if(key == 'Photo') {
+          tr += "<th>" + "<img src=\"data:image/png;base64," + result[i][key] + "\"/>" +  "</th>";
+        } else {
+          tr += "<th>" + result[i][key] + "</th> ";
+        }
+      }
+      tr += "</tr>"
+      $(tr).appendTo("#t-bodypart");
+    }
+  };
+
+
+  function startQuery() {
+    //Get selected example name.
+    query = $("#query-input").val();
+    tablename = $("#table-name").text().trim();
+    //Check if the text is not empty.
+    if(query && query != "") {
+        getJsondata(tablename, query);
+    } else {
+      getJsondata(tablename, '');
+    } 
+  };
+
+  $("#query-input").keyup(function() {
+    var $this = $(this);
+    clearTimeout($this.data('timeout'));
+        
+    $this.data('timeout', setTimeout(function(){
+        startQuery();
+    }, 350));
+  });
+
+  $("#query-button").click(function() {
+      startQuery();
+  });
+
+
+});
+</script>
+{% endblock script %}

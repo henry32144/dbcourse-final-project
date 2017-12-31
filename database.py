@@ -1,10 +1,13 @@
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Date
 
+
 # Sqlite database path.
 SQLITE_DB_PATH = 'college.db'
 
 engine = create_engine('sqlite:///college.db', convert_unicode=True)
 metadata = MetaData(bind=engine)
+
+
 
 academies = Table('Academy', metadata, autoload=True)
 teachers = Table('Teacher', metadata, autoload=True)
@@ -20,3 +23,19 @@ def get_engine():
 
 def get_table(tablename):
     return all_table[tablename]
+
+def query_execute(tablename, parameter):
+    table = get_table(tablename)
+    columns = table.columns.keys()
+    result = ''
+    if tablename == "Academy":
+        result = table.select().where(table.c.AcademyNum.like("%{}%".format(parameter))).execute().fetchall()
+    elif tablename == "Teacher":
+        result = table.select().where(table.c.Ssn.like("%{}%".format(parameter))).execute().fetchall()
+    elif tablename == "Course":
+        result = table.select().where(table.c.CourseNum.like("%{}%".format(parameter))).execute().fetchall()
+    elif tablename == "Student":
+        result = table.select().where(table.c.StudentNum.like("%{}%".format(parameter))).execute().fetchall()
+    elif tablename == "Take_Course":
+        result = table.select().where(table.c.SNum.like("%{}%".format(parameter))).execute().fetchall()
+    return columns, result

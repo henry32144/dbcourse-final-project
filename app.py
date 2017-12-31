@@ -5,7 +5,7 @@ import base64
 from demo_query import demo_query, demo_query_title
 from flask import Flask, render_template, request, g , jsonify
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Date
-from datetime import datetime
+import datetime, decimal
 
 ## Initialize flask app.
 app = Flask(__name__)
@@ -154,6 +154,42 @@ def get_table(tablename):
         results = results
     )
 
+@app.route('/table/<tablename>/query')
+def query_request(tablename, methods=['GET']):
+    con = database.get_engine().connect()
+    query = request.args.get('text','')
+    
+    if query != '':
+        columns, result = database.query_execute(tablename, query)
+        data = []
+        for row in result:
+            current_data = {}
+            count = 0
+            for value in row:
+                if columns[count] == 'Photo':
+                    ##To decode b'' header and encode img to base64
+                    value = base64.b64encode(value).decode('UTF-8')
+                elif isinstance(value, datetime.date):
+                    value = value.strftime('%Y-%m-%d')
+                elif isinstance(value, decimal.Decimal):
+                    value = str(value)
+                current_data.update({columns[count]: value})
+                count+=1
+            data.append(current_data)
+  
+        json_data = json.dumps({'columns':columns, 'results':data})
+        con.close()
+        return json_data
+    else:
+        table = database.get_table(tablename)
+        table = table.select().execute().fetchall()
+        table_name = tablename  
+        columns , data = parse_result(table)
+        json_data = json.dumps({'columns':columns, 'results':data})
+        return json_data
+
+
+
 def parse_result(table):
     columns = table[0].keys()
     results = []
@@ -165,6 +201,10 @@ def parse_result(table):
             if columns[count] == 'Photo':
                 ##To decode b'' header and encode img to base64
                 value = base64.b64encode(value).decode('UTF-8')
+            elif isinstance(value, datetime.date):
+                value = value.strftime('%Y-%m-%d')
+            elif isinstance(value, decimal.Decimal):
+                value = str(value)
             current_data.update({columns[count]: value})
             count+=1
         results.append(current_data)
