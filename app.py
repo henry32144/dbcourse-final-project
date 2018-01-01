@@ -4,6 +4,7 @@ import database
 import base64
 from demo_query import demo_query, demo_query_title
 from flask import Flask, render_template, request, g , jsonify
+from werkzeug import secure_filename
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Date
 import datetime, decimal
 
@@ -16,6 +17,7 @@ status_code = { 'operator_warn':"Only SELECT operator is accepted",
                 'no_result':"Request has succeeded, but no result",
                 'error':"An error occurred:",
 }
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 ## Get Academy table for default
 @app.route('/')
@@ -81,6 +83,26 @@ def insert():
     return render_template (
         'insert.html')
 
+@app.route('/operation/insert/<tablename>', method=['POST'])
+def insert_new(tablename):
+    data = request.args.get('newdata','')
+    if data != '':
+        for key in data:
+            if key == 'DServing' or key == 'Bdate' or key == 'BDATE':
+                date = data[key].replace('-','')
+                data[key] = datetime.datetime.strptime(date,'%Y%m%d')
+            if key == 'Photo':
+                ##
+                if allowed_file(data[key]):
+                    filename = secure_filename(file.filename)
+    return render_template (
+        'insert.html')
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
 @app.route('/operation/update')
 def update():
     
@@ -112,6 +134,7 @@ def parse_name(raw_result):
     for i in raw_result:
         data.append(i[0])
     return data
+
 
 ##TextArea page
 @app.route('/textarea')

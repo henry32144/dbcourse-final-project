@@ -39,3 +39,7 @@ def query_execute(tablename, parameter):
     elif tablename == "Take_Course":
         result = table.select().where(table.c.SNum.like("%{}%".format(parameter))).execute().fetchall()
     return columns, result
+
+def insert_data(tablename, data):
+    table = get_table(tablename)
+    table.insert().values(data)
