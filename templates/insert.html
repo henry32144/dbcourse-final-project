@@ -86,31 +86,31 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form id="academy-form" action="/operation/insert/Academy" method="post" >
         <div class="modal-body">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="academy-num">Academy Number</label>
-                <input type="number" class="form-control" id="academy-num" placeholder="11223344">
+                <input type="number"  class="form-control" name="AcademyNum" id="academy-num" placeholder="11223344">
               </div>
               <div class="form-group col-md-6">
                 <label for="academy-name">Academy Name</label>
-                <input type="text" class="form-control" id="academy-name" placeholder="Name">
+                <input type="text" class="form-control" name="AcademyName" id="academy-name" placeholder="Name">
               </div>
             </div>
             <div class="form-group">
               <label for="office-address">Office Address</label>
-              <input type="text" class="form-control" id="office-address" placeholder="1234 Main St">
+              <input type="text" class="form-control" name="OfficeAddress" id="office-address" placeholder="1234 Main St">
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="dean-name">Dean</label>
-                <select id="dean-name" class="form-control">
+                <select id="dean-name" name="Dean" class="form-control">
                 </select>
               </div>
               <div class="form-group col-md-6">
                 <label for="ds-date">Dean Serving Time</label>
-                <input type="date" class="form-control" id="ds-date">
+                <input type="date" name="DServing" class="form-control" id="ds-date">
               </div>
             </div>
         </div>
@@ -132,51 +132,51 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form enctype="multipart/form-data" id="teacher-form" action="/operation/insert/Teacher" method="post" >
         <div class="modal-body">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="teacher-ssn">Ssn</label>
-                <input type="number" class="form-control" id="teacher-ssn" placeholder="A123456789">
+                <input type="text" class="form-control" name="Ssn" id="teacher-ssn" placeholder="A123456789">
               </div>
               <div class="form-group col-md-6">
                 <label for="teacher-name">Name</label>
-                <input type="text" class="form-control" id="teacher-name" placeholder="Name">
+                <input type="text" class="form-control" name="Name" id="teacher-name" placeholder="Name">
               </div>
             </div>
             <div class="form-row">
                <div class="form-group col-md-2">
                  <label for="teacher-sex">Sex</label>
-                 <select id="teacher-sex" class="form-control">
+                 <select id="teacher-sex" name="Sex" class="form-control">
                    <option>男</option>
                    <option>女</option>
                  </select>
                </div>
                <div class="form-group col-md-4">
                  <label for="teacher-salary">Salary</label>
-                 <input type="number" class="form-control" id="teacher-salary" placeholder="999999">
+                 <input type="number" class="form-control" name="Salary" id="teacher-salary" placeholder="999999">
                </div>
                <div class="form-group col-md-3">
                  <label for="teacher-phone">Phone</label>
-                 <input type="number" class="form-control" id="teacher-phone" placeholder="0912345678">
+                 <input type="number" class="form-control" name="PhoneNum" id="teacher-phone" placeholder="0912345678">
                </div>
                <div class="form-group col-md-3">
                  <label for="teacher-birth">Birthday</label>
-                 <input type="date" class="form-control" id="teacher-birth">
+                 <input type="date" class="form-control" name="Bdate" id="teacher-birth">
                </div>
             </div>
             <div class="form-group">
               <label for="teacher_address">Address</label>
-              <input type="text" class="form-control" id="teacher_address" placeholder="1234 Main St">
+              <input type="text" class="form-control" name="Address" id="teacher_address" placeholder="1234 Main St">
             </div>
             <div class="form-group">
               <label for="t-office-address">Office Address</label>
-              <input type="text" class="form-control" id="t-office-address" placeholder="Super Big intelligent building">
+              <input type="text" class="form-control" name="OfficeAddress" id="t-office-address" placeholder="Super Big intelligent building">
             </div>
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="teacher-class">Teacher Class</label>
-                <select id="teacher-class" class="form-control">
+                <select id="teacher-class" name="Class" class="form-control">
                   <option>教授</option>
                   <option>副教授</option>
                   <option>助理教授</option>
@@ -185,22 +185,22 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="teacher-expert">Expertise</label>
-                <input type="text" class="form-control" id="teacher-expert" placeholder="忍術關上衣櫃抽屜術 ">
+                <input type="text" class="form-control" name="Expertise" id="teacher-expert" placeholder="忍術關上衣櫃抽屜術 ">
               </div>
               <div class="form-group col-md-4">
                 <label for="teacher-academy">Academy</label>
-                <select id="teacher-academy" class="form-control academy-name-class">
+                <select id="teacher-academy" name="AName" class="form-control academy-name-class">
                 </select>
               </div>
             </div>
             <div class="form-group col-md-3">
               <label for="teacher-photo">Select a Photo</label>
-              <input type="file" class="form-control" id="teacher-photo" accept="image/*">
+              <input type="file" name="Photo" class="form-control" id="teacher-photo">
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="submit" id="teacher-submit" class="btn btn-primary">Insert</button>
+          <button type="submit" id="teacher-submit" value="submit" class="btn btn-primary">Insert</button>
         </div>
       </form>
     </div>
@@ -216,51 +216,51 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form id="student-form" enctype="multipart/form-data" action="/operation/insert/Student" method="post">
         <div class="modal-body">
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="student-number">Student Number</label>
-                <input type="number" class="form-control" id="student-number" placeholder="A123456789">
+                <input type="text" class="form-control" name="StudentNum" id="student-number" placeholder="A123456789">
               </div>
               <div class="form-group col-md-6">
                 <label for="student-name">Name</label>
-                <input type="text" class="form-control" id="student-name" placeholder="Name">
+                <input type="text" class="form-control" name="StudentName" id="student-name" placeholder="Name">
               </div>
             </div>
             <div class="form-row">
                <div class="form-group col-md-2">
                  <label for="student-sex">Sex</label>
-                 <select id="student-sex" class="form-control">
+                 <select id="student-sex" name="Sex" class="form-control">
                    <option>男</option>
                    <option>女</option>
                  </select>
                </div>
                <div class="form-group col-md-4">
                  <label for="student-academy">Academy</label>
-                 <select id="student-academy" class="form-control academy-name-class">
+                 <select id="student-academy" name="AName" class="form-control academy-name-class">
                  </select>
                </div>
                <div class="form-group col-md-3">
                  <label for="student-phone">Phone</label>
-                 <input type="number" class="form-control" id="student-phone" placeholder="0912345678">
+                 <input type="number" class="form-control" name="PhoneNum" id="student-phone" placeholder="0912345678">
                </div>
                <div class="form-group col-md-3">
                  <label for="student-birth">Birthday</label>
-                 <input type="date" class="form-control" id="student-birth">
+                 <input type="date" class="form-control" name="BDATE" id="student-birth">
                </div>
             </div>
             <div class="form-group">
               <label for="student_address">Address</label>
-              <input type="text" class="form-control" id="student_address" placeholder="1234 Main St">
+              <input type="text" class="form-control" name="Address" id="student_address" placeholder="1234 Main St">
             </div>
             <div class="form-group">
               <label for="student-email">Email Address</label>
-              <input type="text" class="form-control" id="student-email" placeholder="handsomehenry@123.com">
+              <input type="text" class="form-control" name="Email" id="student-email" placeholder="handsomehenry@123.com">
             </div>
             <div class="form-group col-md-3">
               <label for="student-photo">Select a Photo</label>
-              <input type="file" class="form-control" id="student-photo" accept="image/*">
+              <input type="file" class="form-control" name="Photo" id="student-photo" accept="image/*">
             </div>
         </div>
         <div class="modal-footer">
@@ -281,26 +281,26 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form id="course-form" action="/operation/insert/Course" method="post">
         <div class="modal-body">
             <div class="form-row">
               <div class="form-group col-md-3">
                 <label for="course-num">Course Number</label>
-                <input type="number" class="form-control" id="course-num" placeholder="1234">
+                <input type="number" class="form-control" name="CourseNum" id="course-num" placeholder="1234">
               </div>
               <div class="form-group col-md-6">
                 <label for="course-name">Course Name</label>
-                <input type="text" class="form-control" id="course-name" placeholder="Name">
+                <input type="text" class="form-control" name="CourseName" id="course-name" placeholder="Name">
               </div>
               <div class="form-group col-md-3">
                 <label for="academy-year">Academy Year</label>
-                <input type="text" class="form-control" id="academy-year" placeholder="105學年度">
+                <input type="text" class="form-control" name="AcademicYear" id="academy-year" placeholder="105學年度">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="semester">Semester</label>
-                <select id="semester" class="form-control">
+                <select id="semester" name="Semester" class="form-control">
                   <option>第一學期</option>
                   <option>第二學期</option>
                   <option>暑期</option>
@@ -308,7 +308,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="c-academy-name">Academy Name</label>
-                <select id="c-academy-name" class="form-control academy-name-class">
+                <select id="c-academy-name" name="AName" class="form-control academy-name-class">
                 </select>
               </div>
             </div>
@@ -331,31 +331,34 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form>
+      <form id="tkcourse-form" action="/operation/insert/Take_Course" method="post">
         <div class="modal-body">
             <div class="form-row">
               <div class="form-group col-md-4">
                 <label for="tk-student-num">Student Number</label>
-                <input type="number" class="form-control" id="tk-student-num" placeholder="Number">
+                <select id="tk-student-num" name="SNum" class="form-control">
+                </select>
               </div>
               <div class="form-group col-md-4">
                 <label for="tk-course-num">Course Number</label>
-                <input type="number" class="form-control" id="tk-course-num" placeholder="Number">
+                <select id="tk-course-num" name="CNum" class="form-control">
+                </select>
               </div>
               <div class="form-group col-md-4">
                 <label for="tk-teacher-num">Teacher Number</label>
-                <input type="text" class="form-control" id="tk-teacher-num" placeholder="Number">
+                <select id="tk-teacher-num" name="TNum" class="form-control">
+                </select>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="tk-academy-name">Academy Name</label>
-                <select id="tk-academy-name" class="form-control academy-name-class">
+                <select id="tk-academy-name" name="AName" class="form-control academy-name-class">
                 </select>
               </div>
               <div class="form-group col-md-4">
                 <label for="tk-score">Score</label>
-                <input type="number" class="form-control" id="tk-score" placeholder="100.00" min="0" max="100">
+                <input type="number" class="form-control" name="Score" id="tk-score" placeholder="100.00" min="0" max="100">
               </div>
             </div>
         </div>
@@ -373,12 +376,17 @@
 <script type="text/javascript">
 $(function() {
 
-  function getName(type) {
+  function getData(tablename, type) {
     $.getJSON({
-      url: "/operation/get/" +  type  + "-name",
+      url: "/operation/get/" +  tablename  + "-" + type,
       success: function(response) {
                 console.log("success");
-                setName(response, type);
+                if(type == 'name') {
+                  setName(response, tablename);
+                } else if(type == 'num') {
+                  setNum(response, tablename);
+                }
+                
             },
             error: function(error) {
                 console.log("fail");
@@ -387,9 +395,9 @@ $(function() {
     });
   };
 
-  function setName(data, type) {
+  function setName(data, tablename) {
     Names = data['Name'];
-    if(type == 'academy') {
+    if(tablename == 'academy') {
       $(".academy-name-class").each(function(i, element){
         $(element).empty();
         for(i =0; i < Names.length;i++) {
@@ -398,7 +406,7 @@ $(function() {
           }).appendTo($(element));
         }
       });
-    } else if (type == 'teacher') {
+    } else if (tablename == 'teacher') {
       for(i =0; i < Names.length;i++) {
         $("<option/>", {
           text: Names[i]
@@ -407,12 +415,39 @@ $(function() {
     }
   };
 
-  function sendInsertRequest(tablename, insertData) {
-    $.post({
-      url: "/operation/" + "insert/" + tablename ,
-      data: {newdata:insertData},
+  function setNum(data, tablename) {
+    Numbers = data["Number"];
+    if(tablename == "student") {
+      for(i =0; i < Numbers.length;i++) {
+        $("<option/>", {
+          text: Numbers[i]
+        }).appendTo($("#tk-student-num"));
+      }
+    } else if (tablename == "teacher") {
+      for(i =0; i < Numbers.length;i++) {
+        $("<option/>", {
+          text: Numbers[i]
+        }).appendTo($("#tk-teacher-num"));
+      }
+    } else if (tablename == "course") {
+      for(i =0; i < Numbers.length;i++) {
+        $("<option/>", {
+          text: Numbers[i]
+        }).appendTo($("#tk-course-num"));
+      }
+    }
+  };
+
+
+  function sendInsertData(tablename, formdata) {
+    $.ajax({
+      url: "/operation/insert/" + tablename,
+      data: formdata,
+      type: 'POST',
+      contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+      processData: false,
       success: function(response) {
-                console.log("success");
+                console.log("success")
             },
             error: function(error) {
                 console.log("fail");
@@ -421,28 +456,27 @@ $(function() {
     });
   };
 
+
+
+  $('#teacher-form').submit(function () {
+    var form = new FormData($(this));
+    sendInsertData("Teacher", form);
+  });
+
+  $('#student-form').submit(function () {
+    var form = new FormData($(this));
+    sendInsertData("Student", form);
+  });
+
+
   function init_insert() {
-    getName("academy");
-    getName("teacher");
+    getData("academy","name");
+    getData("teacher","name");
+    getData("teacher","num");
+    getData("student","num");
+    getData("course","num");
   }
 
-  //Sumbit buttons event
-  $("#academy-submit").click(function() {
-      academyNumber = $("#academy-num").val();
-      academyName = $("#academy-name").val();
-      officeAddress = $("office-address").val();
-      deanName = $("#dean-name").val();
-      deanServingTime = $("#ds-date").val();
-      if(academyNumber != null && academyName != null) {
-        data = {'AcademyNum' : academyNumber,
-                'AcademyName': academyName,
-                'OfficeAddress': officeAddress,
-                'Dean' : deanName,
-                'DServing': deanServingTime
-        };
-        sendInsertRequest('Academy', data);
-      }
-  });
 
   init_insert();
 

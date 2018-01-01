@@ -42,4 +42,9 @@ def query_execute(tablename, parameter):
 
 def insert_data(tablename, data):
     table = get_table(tablename)
-    table.insert().values(data)
+    engine.connect().execute(table.insert().values(data))
+
+def delete_data(tablename, data):
+    table = get_table(tablename)
+    engine.connect().execute(table.delete().where(data))
+

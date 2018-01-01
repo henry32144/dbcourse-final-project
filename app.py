@@ -1,12 +1,12 @@
 import sqlite3
 import json
 import database
-import base64
+import base64,sys
 from demo_query import demo_query, demo_query_title
 from flask import Flask, render_template, request, g , jsonify
 from werkzeug import secure_filename
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Date
-import datetime, decimal
+import datetime, decimal, time
 
 ## Initialize flask app.
 app = Flask(__name__)
@@ -83,25 +83,46 @@ def insert():
     return render_template (
         'insert.html')
 
-@app.route('/operation/insert/<tablename>', method=['POST'])
+@app.route('/operation/insert/<tablename>', methods=['POST'])
 def insert_new(tablename):
-    data = request.args.get('newdata','')
-    if data != '':
-        for key in data:
-            if key == 'DServing' or key == 'Bdate' or key == 'BDATE':
-                date = data[key].replace('-','')
-                data[key] = datetime.datetime.strptime(date,'%Y%m%d')
-            if key == 'Photo':
-                ##
-                if allowed_file(data[key]):
-                    filename = secure_filename(file.filename)
+    table = database.get_table(tablename)
+    columns = table.columns.keys()
+    data = {}
+    for i in columns:
+        
+        if i == 'DServing' or i == 'Bdate' or i == 'BDATE':
+            temp = request.form.get(i,'')
+            if temp == '':
+                temp = time.strftime('%Y-%m-%d')
+            temp = datetime.datetime.strptime(temp,'%Y-%m-%d')
+        elif i == 'Photo':
+            filename = request.files[i].filename
+            temp = request.files[i].read()
+            if filename == '':
+                temp = read_default()
+        else:
+            temp = request.form.get(i,'')
+        data[i] = temp
+    print(data,file=sys.stderr)
+    database.insert_data(tablename,data)
+
+    columns, result = database.query_execute(tablename, data[table.primary_key.columns.keys()[0]])
+    results = parse_query_result(columns, result)
     return render_template (
-        'insert.html')
+        'insert.html',
+        columns = columns,
+        results = results
+        ) 
+
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+def read_default():
+    with open('./static/img/doge.png', 'rb') as f:
+        photo = f.read()
+    return photo
 
 @app.route('/operation/update')
 def update():
@@ -127,6 +148,27 @@ def get_teacher_name():
     result = database.engine.execute("SELECT Name FROM Teacher").fetchall()
     data = parse_name(result)
     json_data = json.dumps({'Name':data})
+    return json_data
+
+@app.route('/operation/get/teacher-num')
+def get_teacher_number():
+    result = database.engine.execute("SELECT Ssn FROM Teacher").fetchall()
+    data = parse_name(result)
+    json_data = json.dumps({'Number':data})
+    return json_data
+
+@app.route('/operation/get/student-num')
+def get_student_number():
+    result = database.engine.execute("SELECT StudentNum FROM Student").fetchall()
+    data = parse_name(result)
+    json_data = json.dumps({'Number':data})
+    return json_data
+
+@app.route('/operation/get/course-num')
+def get_course_number():
+    result = database.engine.execute("SELECT CourseNum FROM Course").fetchall()
+    data = parse_name(result)
+    json_data = json.dumps({'Number':data})
     return json_data
 
 def parse_name(raw_result):
@@ -229,21 +271,7 @@ def query_request(tablename, methods=['GET']):
     
     if query != '':
         columns, result = database.query_execute(tablename, query)
-        data = []
-        for row in result:
-            current_data = {}
-            count = 0
-            for value in row:
-                if columns[count] == 'Photo':
-                    ##To decode b'' header and encode img to base64
-                    value = base64.b64encode(value).decode('UTF-8')
-                elif isinstance(value, datetime.date):
-                    value = value.strftime('%Y-%m-%d')
-                elif isinstance(value, decimal.Decimal):
-                    value = str(value)
-                current_data.update({columns[count]: value})
-                count+=1
-            data.append(current_data)
+        data = parse_query_result(columns, result)
   
         json_data = json.dumps({'columns':columns, 'results':data})
         con.close()
@@ -256,7 +284,23 @@ def query_request(tablename, methods=['GET']):
         json_data = json.dumps({'columns':columns, 'results':data})
         return json_data
 
-
+def parse_query_result(columns, result):
+    data = []
+    for row in result:
+        current_data = {}
+        count = 0
+        for value in row:
+            if columns[count] == 'Photo':
+                ##To decode b'' header and encode img to base64
+                value = base64.b64encode(value).decode('UTF-8')
+            elif isinstance(value, datetime.date):
+                value = value.strftime('%Y-%m-%d')
+            elif isinstance(value, decimal.Decimal):
+                value = str(value)
+            current_data.update({columns[count]: value})
+            count+=1
+        data.append(current_data)
+    return data
 
 def parse_result(table):
     columns = table[0].keys()
