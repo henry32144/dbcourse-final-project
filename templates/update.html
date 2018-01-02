@@ -7,10 +7,10 @@
 {% block IconCards %}
 <div class="row">
   <div class="col-xl-12 col-sm-12 mb-12">
-    <div class="card text-white {{ bg or 'bg-primary'}} o-hidden h-100">
+    <div class="card text-white {{ bg or 'bg-warning'}} o-hidden h-100">
       <div class="card-body">
         <div class="card-body-icon">
-           <i class="fa fa-fw fa-wrench"></i>
+           <i class="fa fa-fw fa-eraser"></i>
         </div>
         <div class="mr-5 h1">Operation!</div>
       </div>
@@ -19,33 +19,44 @@
 </div>
 {% endblock IconCards %}
 
-{% block Operation %}
-  <div class="form-group mt-3">
-  <form class="input-group" action="/operation/submit" method="post" role="form">
-    <textarea class="form-control" rows="5" id="type-area" name="request-text"placeholder="Console"></textarea>
-    <span class="input-group-btn" aria-hidden="true">
-      <button class="btn btn-primary" id="submit-query" value="Submit" type="submit">Submit</button>
-      </span>
-    </form>
-  </div>
-{% endblock Operation %}
-
-
 {% block DataTables %}
   <div class="card mt-3">
     <div class="card-header">
       <div class="row">
         <div class="col-xl-12 col-sm-12">
-          <i class="fa fa-table"></i> 
-          Data     
-        </div>  
+          <i class="fa fa-table" id="table-name">  {{table_name or "Academy"}}</i>  
+          <div class="dropdown pull-right">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Choose Table
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="/operation/update/table/Academy">Academy</a>
+              <a class="dropdown-item" href="/operation/update/table/Teacher">Teacher</a>
+              <a class="dropdown-item" href="/operation/update/table/Student">Student</a>
+              <a class="dropdown-item" href="/operation/update/table/Course">Course</a>
+              <a class="dropdown-item" href="/operation/update/table/Take_Course">Take_Course</a>
+            </div>
+          </div>  
+        </div>
+      </div>
+      <div class="row">
+        <div class="search-wrapper col-lg-3 mt-3" role="search">
+          <div class="form-group input-group search-area">
+            <input class="form-control" id="query-input" placeholder="Search by Id" type="text">
+            <span class="input-group-btn" id="search-span">
+              <button class="btn btn-default" id="query-button" type="submit" value="Submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
           <thead>
-            <tr>
+            <tr id="t-headpart">
               {%- if columns -%}
                 {% for column_name in columns %}
                   <th>{{ column_name|e }}</th>
@@ -53,12 +64,12 @@
               {% endif %}
             </tr>
           </thead>
-          <tbody>
+          <tbody id="t-bodypart">
             {%- if results -%}
               {% for result in results %}
-                <tr>
+                <tr class='datatable-row'>
                   {% for key,value in result.items() %}
-                    {%- if key == 'Photo' -%}
+                    {%- if key == "Photo" -%}
                       <th><img src="data:image/png;base64,{{ value }}"/></th>
                     {% else %}
                         <th>{{ value }}</th>
@@ -74,3 +85,97 @@
     <div class="card-footer"></div>
   </div>
 {% endblock DataTables %}
+
+{% block script %}
+<script type="text/javascript">
+$(function() {
+
+  function getJsondata(tablename, query) {
+    queryText = query
+    $.getJSON({
+      url: "/operation/update/table/" + tablename + "/query",
+      data: {text:queryText},
+      success: function(response) {
+                console.log("success")
+                parseJson(response);
+            },
+            error: function(error) {
+                console.log("fail");
+                console.log(error);
+            }
+    });
+  };
+
+
+  function parseJson(data) {
+    columns = data.columns;
+    result = data.results;
+    $("#t-headpart").empty();
+    $("#t-bodypart").empty();
+
+    for(i =0; i < columns.length;i++) {
+      $("<th/>", {
+        text: columns[i]
+      }).appendTo("#t-headpart");
+    }
+
+    for(i =0; i < result.length;i++) {
+      tr = "<tr class='datatable-row'>";
+      for(key in result[i]) {
+        if(key == 'Photo') {
+          tr += "<th>" + "<img src=\"data:image/png;base64," + result[i][key] + "\"/>" +  "</th>";
+        } else {
+          tr += "<th>" + result[i][key] + "</th> ";
+        }
+      }
+      tr += "</tr>"
+      $(tr).appendTo("#t-bodypart");
+    }
+    $(".datatable-row").click(datatableOnclick);
+  };
+
+
+  function startQuery() {
+    //Get selected example name.
+    query = $("#query-input").val();
+    tablename = $("#table-name").text().trim();
+    //Check if the text is not empty.
+    if(query && query != "") {
+        getJsondata(tablename, query);
+    } else {
+      getJsondata(tablename, '');
+    } 
+  };
+
+  function datatableOnclick() {
+    clickedItem = $(this);
+    getUrl = window.location;
+    currentTable = getUrl.pathname.split('/')[getUrl.pathname.split('/').length - 1];
+    if(currentTable == 'Take_Course') {
+      Key1 = clickedItem.children().first().text();
+      Key2 = clickedItem.children().eq(1).text();
+
+    } else {
+      //
+    }
+  };
+
+
+  $("#query-input").keyup(function() {
+    var $this = $(this);
+    clearTimeout($this.data('timeout'));
+        
+    $this.data('timeout', setTimeout(function(){
+        startQuery();
+    }, 350));
+  });
+
+  $("#query-button").click(function() {
+      startQuery();
+  });
+
+  $(".datatable-row").click(datatableOnclick);
+
+});
+</script>
+{% endblock script %}

@@ -126,15 +126,104 @@ def read_default():
 
 @app.route('/operation/update')
 def update():
+    ##Get database engine
+    con = database.get_engine().connect()
+
+    ##Execute select all from Academy table
+    table = database.academies.select().execute().fetchall()
+    table_name = 'Academy'
     
+    ##Parse result data
+    columns , results = parse_result(table)
+    
+    con.close()
     return render_template (
-        'update.html')
+        'update.html',
+        table_name = table_name,
+        columns = columns,
+        results = results)
+
+
 
 @app.route('/operation/delete')
 def delete():
+        ##Get database engine
+    con = database.get_engine().connect()
+
+    ##Execute select all from Academy table
+    table = database.academies.select().execute().fetchall()
+    table_name = 'Academy'
+    
+    ##Parse result data
+    columns , results = parse_result(table)
+    
+    con.close()
+    return render_template (
+        'delete.html',
+        table_name = table_name,
+        columns = columns,
+        results = results)
+
+@app.route('/operation/delete/table/<tablename>/delete', methods=['POST'])
+def delete_item(tablename):
+    con = database.get_engine().connect()
+    data = request.args.get('dataid','')
+    #
+    print(data,file=sys.stderr)
+    ##Execute select all from Academy table
+    table = database.get_table(tablename)
+    table = table.select().execute().fetchall()
+    table_name = tablename
+    
+    ##Parse result data
+    columns , results = parse_result(table)
+    
+    con.close()
+    return render_template (
+        'delete.html',
+        table_name = table_name,
+        columns = columns,
+        results = results)
+
+
+@app.route('/operation/<operation>/table/<tablename>')
+def operation_get_table(operation, tablename):
+    con = database.get_engine().connect()
+    table = database.get_table(tablename)
+    table = table.select().execute().fetchall()
+    table_name = tablename
+    
+    columns , results = parse_result(table)       
+
+    con.close()
     
     return render_template (
-        'delete.html')
+        operation + '.html',
+        table_name = table_name,
+        columns = columns,
+        results = results
+    )
+
+@app.route('/operation/<operation>/table/<tablename>/query', methods=['GET'])
+def operation_query_request(operation, tablename):
+    con = database.get_engine().connect()
+    query = request.args.get('text','')
+    
+    if query != '':
+        columns, result = database.query_execute(tablename, query)
+        data = parse_query_result(columns, result)
+  
+        json_data = json.dumps({'columns':columns, 'results':data})
+        con.close()
+        return json_data
+    else:
+        table = database.get_table(tablename)
+        table = table.select().execute().fetchall()
+        table_name = tablename  
+        columns , data = parse_result(table)
+        json_data = json.dumps({'columns':columns, 'results':data})
+        return json_data
+
 
 @app.route('/operation/get/academy-name')
 def get_academy():
@@ -264,8 +353,8 @@ def get_table(tablename):
         results = results
     )
 
-@app.route('/table/<tablename>/query')
-def query_request(tablename, methods=['GET']):
+@app.route('/table/<tablename>/query', methods=['GET'])
+def query_request(tablename):
     con = database.get_engine().connect()
     query = request.args.get('text','')
     
