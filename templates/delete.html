@@ -8,7 +8,7 @@
 {% block IconCards %}
 <div class="row">
   <div class="col-xl-12 col-sm-12 mb-12">
-    <div class="card text-white {{ bg or 'bg-danger'}} o-hidden h-100">
+    <div class="card text-white {{ bg or "bg-danger"}} o-hidden h-100">
       <div class="card-body">
         <div class="card-body-icon">
            <i class="fa fa-fw fa-trash"></i>
@@ -68,7 +68,7 @@
           <tbody id="t-bodypart">
             {%- if results -%}
               {% for result in results %}
-                <tr class='datatable-row'>
+                <tr class="datatable-row">
                   {% for key,value in result.items() %}
                     {%- if key == "Photo" -%}
                       <th><img src="data:image/png;base64,{{ value }}"/></th>
@@ -147,7 +147,7 @@ $(function() {
     for(i =0; i < result.length;i++) {
       tr = "<tr class='datatable-row'>";
       for(key in result[i]) {
-        if(key == 'Photo') {
+        if(key == "Photo") {
           tr += "<th>" + "<img src=\"data:image/png;base64," + result[i][key] + "\"/>" +  "</th>";
         } else {
           tr += "<th>" + result[i][key] + "</th> ";
@@ -168,14 +168,12 @@ $(function() {
     if(query && query != "") {
         getJsondata(tablename, query);
     } else {
-      getJsondata(tablename, '');
+      getJsondata(tablename, "");
     } 
   };
 
   function getCurrentTable() {
-    getUrl = window.location;
-    currentTable = getUrl.pathname.split('/')[getUrl.pathname.split('/').length - 1];
-    return currentTable;
+    return $("#table-name").text().trim();
   };
 
   function datatableOnclick() {
@@ -183,7 +181,7 @@ $(function() {
     currentTable = getCurrentTable();
     $("#modal-data-block").empty();
     console.log(clickedItem);
-    if(currentTable == 'Take_Course') {
+    if(currentTable == "Take_Course") {
       key1 = clickedItem.children().first().text();
       key2 = clickedItem.children().eq(1).text();
       $("<p/>",{text: key1}).appendTo("#modal-data-block");
@@ -192,30 +190,42 @@ $(function() {
       key1 = clickedItem.children().first().text();
       $("<p/>",{text: key1}).appendTo("#modal-data-block");
     }
-    $('#confirmModal').modal('toggle')
+    $("#confirmModal").modal("toggle");
   };
 
   function sendDelete(tablename, data) {
-      $.post({
-        url: "/operation/delete/table/" + tablename + "/delete",
-        data: {dataid:data},
-        success: function(response) {
-                  console.log("success")
-              },
-              error: function(error) {
-                  console.log("fail");
-                  console.log(error);
-              }
-      });
+    if(data) {
+      ajaxData = {'k1':data[0]};
+      if(data.length > 1) {
+        ajaxData = {
+          'k1':data[0],
+          'k2':data[1]
+        };
+      }
+      ajaxData = $.param(ajaxData);
+      console.log(ajaxData);
+        $.get({
+          url: "/operation/delete/table/" + tablename + "/delete",
+          data: {key:ajaxData},
+          success: function(response) {
+                    console.log("success");
+                    location.reload();
+                },
+                error: function(error) {
+                    console.log("fail");
+                    console.log(error);
+                }
+        });
+    }
   };
 
   $("#query-input").keyup(function() {
     var $this = $(this);
-    clearTimeout($this.data('timeout'));
+    clearTimeout($this.data("timeout"));
         
-    $this.data('timeout', setTimeout(function(){
+    $this.data("timeout", setTimeout(function(){
         startQuery();
-    }, 350));
+    }, 250));
   });
 
   $("#query-button").click(function() {
@@ -234,6 +244,7 @@ $(function() {
     }
     console.log(data);
     sendDelete(currentTable, data)
+    $("#confirmModal").modal("toggle");
   });
 
 });

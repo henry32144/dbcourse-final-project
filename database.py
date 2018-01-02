@@ -46,5 +46,14 @@ def insert_data(tablename, data):
 
 def delete_data(tablename, data):
     table = get_table(tablename)
-    engine.connect().execute(table.delete().where(data))
+    if tablename == "Academy":
+        engine.connect().execute(table.delete().where(table.c.AcademyNum == data))
+    elif tablename == "Teacher":
+        engine.connect().execute(table.delete().where(table.c.Ssn == data))
+    elif tablename == "Course":
+        engine.connect().execute(table.delete().where(table.c.CourseNum == data))
+    elif tablename == "Student":
+        engine.connect().execute(table.delete().where(table.c.StudentNum == data))
+    elif tablename == "Take_Course":
+        engine.connect().execute(table.delete().where(table.c.SNum == data[0] and table.c.CNum == data[1]))
 

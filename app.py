@@ -164,12 +164,21 @@ def delete():
         columns = columns,
         results = results)
 
-@app.route('/operation/delete/table/<tablename>/delete', methods=['POST'])
+@app.route('/operation/delete/table/<tablename>/delete', methods=['GET'])
 def delete_item(tablename):
     con = database.get_engine().connect()
-    data = request.args.get('dataid','')
-    #
+    data = request.values.get('key')
     print(data,file=sys.stderr)
+    if data != '':
+        if tablename == 'Take_Course':
+            data = data.split('&')
+            temp = []
+            temp.append(data[0].split('=')[1])
+            temp.append(data[1].split('=')[1])
+            data = temp
+        else:
+            data = data.split('=')[1]
+        database.delete_data(tablename, data)
     ##Execute select all from Academy table
     table = database.get_table(tablename)
     table = table.select().execute().fetchall()
