@@ -1,7 +1,11 @@
 Database 期末專案 - Database course final project
 ===============================
-這是資料庫課程的期末專案，為了方便展示，Operation Console只有Select操作能用。
 
+[English Version](https://github.com/henry32144/DBcourse-FinalProject/blob/master/README(EN).md)
+
+這是資料庫課程的期末專案。
+
+非常簡陋的學校後台系統，能做一些資料庫的Insert、Delete和Query。
 
 Demo
 ===============================
@@ -46,12 +50,6 @@ pip -r requirements.txt
 python app.py
 ```
 即可開啟local server
-
-
-注意
-==============================
-為了方便管理，所以限制了使用者輸入只能使用SELECT，其他如Database操作都會被過濾掉(如CREATE,DELETE...)。
-
 
 作者
 ==============================
