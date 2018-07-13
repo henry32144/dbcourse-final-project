@@ -1,6 +1,9 @@
 Database course final project
 ===============================
-This is the final project of the database course, for the showcase, only SELECT operator is available in operation console
+
+This is the final project of the database course. Just a very simple school backend system, and do something easy operation such as 
+
+Insert, Delete and Query.
 
 
 Demo
