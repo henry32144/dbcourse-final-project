@@ -1,9 +1,7 @@
 Database course final project
 ===============================
 
-This is the final project of the database course. Just a very simple school backend system, and do something easy operation such as 
-
-Insert, Delete and Query.
+This is the final project of the database course. Just a very simple school backend system, and do something easy operation such as Insert, Delete and Query.
 
 
 Demo
@@ -49,11 +47,6 @@ python app.py
 ```
 
 Ok! you are running a local server 
-
-
-Attention
-==============================
-For some reason, this app restrict user on database operator, which can only use SELECT, the others would be filtered(such as CREATE, DELETE...).
 
 
 Author
